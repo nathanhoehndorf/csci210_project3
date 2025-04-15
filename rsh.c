@@ -12,9 +12,7 @@ extern char **environ;
 char *allowed[N] = {"cp","touch","mkdir","ls","pwd","cat","grep","chmod","diff","cd","exit","help"};
 
 int isAllowed(const char* cmd) {
-	// TODO
-	// return 1 if cmd is one of the allowed commands
-	// return 0 otherwise
+
 	for (int i = 0; i < N; i++) {
 		if (strcmp(cmd, allowed[i]) == 0) {
 			return 1;
@@ -25,9 +23,6 @@ int isAllowed(const char* cmd) {
 }
 
 int main() {
-
-    // TODO
-    // Add variables as needed
 
     char line[256];
 
@@ -41,11 +36,6 @@ int main() {
 
 		line[strlen(line)-1]='\0';
 
-		// TODO
-		// Add code to spawn processes for the first 9 commands
-		// And add code to execute cd, exit, help commands
-		// Use the example provided in myspawn.c
-
 		char *argv[21];
 		int argc = 0;
 		char *token = strtok(line, " ");
@@ -58,6 +48,8 @@ int main() {
 		if (strcmp(argv[0], "cd") == 0) {
 			if (argc > 2) {
 				printf("-rsh: cd: too many arguments\n");
+			} else if (argc==1) {
+
 			} else {
 				if (chdir(argv[1]) != 0) {
 					perror("cd failed");
@@ -83,9 +75,6 @@ int main() {
 				int status;
 				if (waitpid(pid, &status, 0) == -1) {
 					perror("waitpid failed");
-				}
-				if (WIFEXITED(status)) {
-					printf("Spawned process exited with status %d\n", WEXITSTATUS(status));
 				}
 			}
 			posix_spawnattr_destroy(&attr);
